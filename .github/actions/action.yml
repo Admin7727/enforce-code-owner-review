@@ -1,0 +1,9 @@
+name: 'Enforce Code Owner Review'
+description: 'Ensure that pull requests have required approvals from code owners.'
+inputs:
+  repo-token:
+    description: 'GitHub token for accessing the repository.'
+    required: true
+runs:
+  using: 'node12'
+  main: 'index.js'

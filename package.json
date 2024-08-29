@@ -1,0 +1,24 @@
+{
+  "name": "enforce-code-owner-review",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest",
+    "prepare": "npm run build",
+    "build": "ncc build index.js -o dist"
+  },
+  "keywords": ["github", "action", "code-review", "enforce", "owners"],
+  "author": "Your Name",
+  "license": "MIT",
+  "description": "A GitHub Action to enforce code owner reviews on pull requests.",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "jest": "^27.4.5",
+    "@vercel/ncc": "^0.33.0"
+  }
+}
