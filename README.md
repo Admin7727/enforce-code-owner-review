@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Enforce Code Owner Review
-      uses: your-username/enforce-code-owner-review@v1
+      uses: Admin7727/enforce-code-owner-review@v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -56,7 +56,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Enforce Review
-      uses: your-username/enforce-code-owner-review@v1
+      uses: Admin7727/enforce-code-owner-review@v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 ```
