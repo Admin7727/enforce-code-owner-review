@@ -68,11 +68,16 @@ async function main() {
 
     const approvalCount = await listCodeOwnerApprovals(this_octokit, owner, repo, pull_number, codeOwnersContent);
 
-    if (approvalCount < process.env.APPROVAL_COUNT) {
-      core.setFailed("Not enough code owner approvals. Minimum 2 approvals required.");
+    if (process.env.APPROVAL_COUNT) {
+      if (approvalCount < process.env.APPROVAL_COUNT) {
+        core.setFailed("Not enough code owner approvals. Minimum 2 approvals required.");
+      } else {
+        console.log("Sufficient code owner approvals.");
+      }
     } else {
-      console.log("Sufficient code owner approvals.");
+      core.setFailed("Parameter 'APPROVAL_COUNT' is not set. Please check the workflow file.");
     }
+    
   } catch (err) {
     console.error(err);
     core.setFailed(err.message);
