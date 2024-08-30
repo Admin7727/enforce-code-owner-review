@@ -52,11 +52,9 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
 
 async function main() {
   try {
-
-    console.log("print env parameters: \n");
-    for (const [key, value] of Object.entries(process.env)) {
-      console.log(`${key}: ${value}`);
-    }
+    console.log("=====================================");
+    console.log("AOSB2C_TOKEN:", process.env.AOSB2C_TOKEN);
+    console.log("APPROVAL_COUNT:", process.env.APPROVAL_COUNT);
     console.log("=====================================");
 
     await loadDependencies();
