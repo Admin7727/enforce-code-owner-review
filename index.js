@@ -45,12 +45,20 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
   console.log("Approved given by: \n", approvedUsers);
   console.log("=====================================");
   console.log("Matched Approval : \n", matchedApprovals);
+  console.log("=====================================");
 
   return matchedApprovals;
 }
 
 async function main() {
   try {
+
+    console.log("print env parameters: \n");
+    for (const [key, value] of Object.entries(process.env)) {
+      console.log(`${key}: ${value}`);
+    }
+    console.log("=====================================");
+
     await loadDependencies();
     const this_octokit = new Octokit({ auth: process.env.AOSB2C_TOKEN });
 
@@ -62,7 +70,7 @@ async function main() {
 
     const approvalCount = await listCodeOwnerApprovals(this_octokit, owner, repo, pull_number, codeOwnersContent);
 
-    if (approvalCount < 2) {
+    if (approvalCount < process.env.APPROVAL_COUNT) {
       core.setFailed("Not enough code owner approvals. Minimum 2 approvals required.");
     } else {
       console.log("Sufficient code owner approvals.");
