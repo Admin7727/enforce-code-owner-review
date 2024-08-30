@@ -1,8 +1,11 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { Octokit } = require("@octokit/rest");
+let Octokit;
 
-const octokit = new Octokit({ auth: process.env.aosb2c-token });
+async function loadDependencies() {
+  const octokitModule = await import("@octokit/rest");
+  Octokit = octokitModule.Octokit;
+}
 
 async function getCodeOwnersContent(owner, repo) {
   try {
@@ -26,39 +29,40 @@ async function listCodeOwnerApprovals(owner, repo, pull_number, codeOwnersConten
     pull_number,
   });
 
-  // Parse the CODEOWNERS content to extract users
   const codeOwners = codeOwnersContent
-    .split('\n') // Split by new line
-    .filter(line => !line.startsWith('#') && line.trim() !== '') // Filter out comments and empty lines
-    .flatMap(line => line.split(/\s+/).slice(1)) // Split each line by whitespace and skip the first part (file pattern)
-    .map(owner => owner.replace('@', '')); // Remove '@' from usernames
+    .split('\n')
+    .filter(line => !line.startsWith('#') && line.trim() !== '')
+    .flatMap(line => line.split(/\s+/).slice(1))
+    .map(owner => owner.replace('@', ''));
 
   const approvedReviews = reviews.filter(review => review.state === 'APPROVED');
-  const codeOwnerApprovals = approvedReviews.filter(review => {
-    // Check if the approver's login is in the list of code owners
-    return codeOwners.includes(review.user.login);
-  });
+  const codeOwnerApprovals = approvedReviews.filter(review => codeOwners.includes(review.user.login));
 
   return codeOwnerApprovals.length;
 }
 
 async function main() {
-  const { owner, repo } = github.context.repo;
-  const pull_number = github.context.issue.number;
+  try {
+    await loadDependencies();
+    const octokit = new Octokit({ auth: process.env.AOSB2C_TOKEN });
 
-  const codeOwnersContent = await getCodeOwnersContent(owner, repo);
-  if (!codeOwnersContent) return;
+    const { owner, repo } = github.context.repo;
+    const pull_number = github.context.issue.number;
 
-  const approvalCount = await listCodeOwnerApprovals(owner, repo, pull_number, codeOwnersContent);
+    const codeOwnersContent = await getCodeOwnersContent(owner, repo);
+    if (!codeOwnersContent) return;
 
-  if (approvalCount < 2) {
-    core.setFailed("Not enough code owner approvals. Minimum 2 approvals required.");
-  } else {
-    console.log("Sufficient code owner approvals.");
+    const approvalCount = await listCodeOwnerApprovals(owner, repo, pull_number, codeOwnersContent);
+
+    if (approvalCount < 2) {
+      core.setFailed("Not enough code owner approvals. Minimum 2 approvals required.");
+    } else {
+      console.log("Sufficient code owner approvals.");
+    }
+  } catch (err) {
+    console.error(err);
+    core.setFailed(err.message);
   }
 }
 
-main().catch(err => {
-  console.error(err);
-  core.setFailed(err.message);
-});
+main();
