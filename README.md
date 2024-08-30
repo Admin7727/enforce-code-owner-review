@@ -69,8 +69,8 @@ jobs:
 
 3. Set Multiple approval whenever pull request into this branch
    - Tick the box for **Require a pull request before merging**
-   - - Tick the box for **Require approvals**
-     -  - Set **Required number of approvals before merging** with minimum 2.
+   - Tick the box for **Require approvals**
+   - Set **Required number of approvals before merging** with minimum 2.
 
 3. Tick the box for **Require review from Code Owners**
    - This ensures that at least one approval must come from a code owner. (default by github)
