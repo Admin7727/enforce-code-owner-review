@@ -7,7 +7,7 @@ async function loadDependencies() {
   Octokit = octokitModule.Octokit;
 }
 
-async function getCodeOwnersContent(owner, repo) {
+async function getCodeOwnersContent(octokit, owner, repo) {
   try {
     const { data } = await octokit.repos.getContent({
       owner,
@@ -22,7 +22,7 @@ async function getCodeOwnersContent(owner, repo) {
   }
 }
 
-async function listCodeOwnerApprovals(owner, repo, pull_number, codeOwnersContent) {
+async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwnersContent) {
   const { data: reviews } = await octokit.pulls.listReviews({
     owner,
     repo,
@@ -44,15 +44,15 @@ async function listCodeOwnerApprovals(owner, repo, pull_number, codeOwnersConten
 async function main() {
   try {
     await loadDependencies();
-    const octokit = new Octokit({ auth: process.env.AOSB2C_TOKEN });
+    const this_octokit = new Octokit({ auth: process.env.AOSB2C_TOKEN });
 
     const { owner, repo } = github.context.repo;
     const pull_number = github.context.issue.number;
 
-    const codeOwnersContent = await getCodeOwnersContent(owner, repo);
+    const codeOwnersContent = await getCodeOwnersContent(this_octokit, owner, repo);
     if (!codeOwnersContent) return;
 
-    const approvalCount = await listCodeOwnerApprovals(owner, repo, pull_number, codeOwnersContent);
+    const approvalCount = await listCodeOwnerApprovals(this_octokit, owner, repo, pull_number, codeOwnersContent);
 
     if (approvalCount < 2) {
       core.setFailed("Not enough code owner approvals. Minimum 2 approvals required.");
