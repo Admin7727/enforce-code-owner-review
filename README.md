@@ -1,21 +1,24 @@
 # Enforce Code Owner Review GitHub Action
 
-This GitHub Action enforces code owner reviews on pull requests, ensuring that all changes are reviewed by the designated code owners before merging.
+This GitHub Action enforces code owner reviews on pull requests after getting approval from user, ensuring that all changes are reviewed by the designated code owners before merging.
 
 ## Features
 
-- **Automatic Enforcement**: Automatically checks if code owners have reviewed the pull requests.
-- **Customizable**: Easy to integrate and configure within your GitHub workflows.
+- **Automatic Enforcement** : Automatically checks if code owners have reviewed the pull requests.
+- **Customizable** : Easy to integrate and configure within your GitHub workflows.
+- **IMPORTANT** : Your repo must have CODEOWNERS file, reference at [github codeowners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
+- **IMPORTANT AGAIN** : Your branch must using at least 2 approvals, and both from CODEOWNERS (team / member)
 
 ## Getting Started
 
 To use this action in your workflow, follow these steps:
 
-### 1. Create a Workflow
+### 1. Create a Workflow (on your repo)
 
-If you don't already have a workflow file, create one in your repository under `.github/workflows/`, for example, `.github/workflows/enforce-code-owner-review.yml`.
+If you don't already have a workflow file, create one in your repository under `.github/workflows/`.
+i.e, `.github/workflows/enforce-code-owner-review.yml`.
 
-### 2. Configure the Workflow
+### 2. Configure the Workflow (on your repo)
 
 Add the following content to your workflow file, adjusting the parameters as necessary:
 
@@ -46,7 +49,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20.x'
+          node-version: '20.x' #set version as you need
 
       - name: Install dependencies
         run: |
@@ -63,12 +66,35 @@ jobs:
           required_approvals: 2 #set mininum approval
 ```
 
-## Inputs
+### 3. Configure the Branch Protection Rule (on github, open your repo)
 
-The action supports the following inputs:
+a) Branch Name Pattern:
+- Set the branch name pattern to main (or the name of the branch you want to protect).
 
-- `github-token`: **Required**. The GitHub token used to post comments and review statuses. Use `${{ secrets.GITHUB_TOKEN }}` to access the token provided by GitHub Actions.
+b) Set Multiple approval whenever pull request into this branch
+- Tick the box for **Require a pull request before merging**
+- Tick the box for **Require approvals**
+- Set **Required number of approvals before merging** with minimum 2.
 
+c) Tick the box for **Require review from Code Owners**
+- This ensures that at least one approval must come from a code owner. (default by github)
+- So that we need this **enfoce-code-owner-review** for multiple codeowner must given approvals before merging.
+
+d) Set additional status check before merging:
+- Check the box for **Require status checks to pass before merging**.
+- This ensures that all required status checks must pass before a pull request can be merged.
+
+e) Set value of Status Checks:
+- After enabling the requirement for status checks, you will see a list of available checks or you can input specific checks that must pass
+- i.e, like your "**approval-validation**" (from yaml file) before allowing a merge.
+- If you want to require another checks to pass, ensure you select all relevant checks.
+
+f) Optional: Require branches to be up to date before merging:
+- Enabling this will require the branch to be up-to-date with the base branch before merging, ensuring that the PR has the latest changes from the base branch.
+
+g) Optional: Disable by-pass rule:
+- Tick the box for **Do not allow bypassing the above settings**
+- If you want to ensure that even administrators cannot bypass these rules.
 
 ## Contributing
 
