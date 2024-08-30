@@ -14,4 +14,4 @@ inputs:
     default: '1' # Assuming 1 approval is the default requirement
 runs:
   using: 'node20'
-  main: '../../index_new.js'
+  main: '../../index.js'
