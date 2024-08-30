@@ -40,6 +40,7 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
   const matchedApprovals = approvedUsers.filter(username =>  codeOwners.includes(username)).length;
 
   // Log the list of code owners
+  console.log("=====================================");
   console.log("Code Owners: \n", codeOwners);
   console.log("=====================================");
   console.log("Approved given by: \n", approvedUsers);
@@ -52,10 +53,10 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
 
 async function main() {
   try {
-    console.log("=====================================");
-    console.log("AOSB2C_TOKEN:", process.env.AOSB2C_TOKEN);
-    console.log("APPROVAL_COUNT:", process.env.APPROVAL_COUNT);
-    console.log("=====================================");
+    // console.log("=====================================");
+    // console.log("AOSB2C_TOKEN:", process.env.AOSB2C_TOKEN);
+    // console.log("APPROVAL_COUNT:", process.env.APPROVAL_COUNT);
+    // console.log("=====================================");
 
     await loadDependencies();
     const this_octokit = new Octokit({ auth: process.env.AOSB2C_TOKEN });
@@ -66,16 +67,18 @@ async function main() {
     const codeOwnersContent = await getCodeOwnersContent(this_octokit, owner, repo);
     if (!codeOwnersContent) return;
 
-    const approvalCount = await listCodeOwnerApprovals(this_octokit, owner, repo, pull_number, codeOwnersContent);
+    const approvals = await listCodeOwnerApprovals(this_octokit, owner, repo, pull_number, codeOwnersContent);
 
-    if (process.env.APPROVAL_COUNT) {
-      if (approvalCount < process.env.APPROVAL_COUNT) {
-        core.setFailed("Not enough code owner approvals. Minimum 2 approvals required.");
-      } else {
-        console.log("Sufficient code owner approvals.");
-      }
+    // if (process.env.APPROVAL_COUNT) {
+      
+    // } else {
+    //   core.setFailed("Parameter 'APPROVAL_COUNT' is not set. Please check the workflow file.");
+    // }
+
+    if (approvals < 2) {
+      core.setFailed("Not enough approvals from code owner.");
     } else {
-      core.setFailed("Parameter 'APPROVAL_COUNT' is not set. Please check the workflow file.");
+      console.log("Sufficient approvals from code owner.");
     }
     
   } catch (err) {
