@@ -15,6 +15,7 @@ async function getCodeOwnersContent(octokit, owner, repo) {
       path: '.github/CODEOWNERS',
     });
     const content = Buffer.from(data.content, 'base64').toString('utf-8');
+
     return content;
   } catch (error) {
     core.setFailed(`Failed to fetch CODEOWNERS file: ${error.message}`);
@@ -37,6 +38,12 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
 
   const approvedReviews = reviews.filter(review => review.state === 'APPROVED');
   const codeOwnerApprovals = approvedReviews.filter(review => codeOwners.includes(review.user.login));
+
+  // Log the list of code owners
+  console.log("Code Owners: \n", codeOwners);
+  console.log("=====================================");
+  console.log("Approved given by: \n");
+  codeOwnerApprovals.forEach(approval => console.log(approval.user.login));
 
   return codeOwnerApprovals.length;
 }
