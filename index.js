@@ -36,16 +36,17 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
     .flatMap(line => line.split(/\s+/).slice(1))
     .map(owner => owner.replace('@', ''));
 
-  const approvedReviews = reviews.filter(review => review.state === 'APPROVED');
-  const approverUsernames = approvedReviews.map(review => review.user.login);
-  const codeOwnerApprovals = approvedReviews.filter(review => codeOwners.includes(review.user.login));
+  const approvedUsers = reviews.filter(review => review.state === 'APPROVED').map(review => review.user.login);
+  const matchedApprovals = approvedUsers.filter(username =>  codeOwners.includes(username)).length;
 
   // Log the list of code owners
   console.log("Code Owners: \n", codeOwners);
   console.log("=====================================");
-  console.log("Approved given by: \n", approverUsernames);
+  console.log("Approved given by: \n", approvedUsers);
+  console.log("=====================================");
+  console.log("Matched Approval : \n", matchedApprovals);
 
-  return codeOwnerApprovals.length;
+  return matchedApprovals;
 }
 
 async function main() {
