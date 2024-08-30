@@ -37,13 +37,13 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
     .map(owner => owner.replace('@', ''));
 
   const approvedReviews = reviews.filter(review => review.state === 'APPROVED');
+  const approverUsernames = approvedReviews.map(review => review.user.login);
   const codeOwnerApprovals = approvedReviews.filter(review => codeOwners.includes(review.user.login));
 
   // Log the list of code owners
   console.log("Code Owners: \n", codeOwners);
   console.log("=====================================");
-  console.log("Approved given by: \n");
-  codeOwnerApprovals.forEach(approval => console.log(approval.user.login));
+  console.log("Approved given by: \n", approverUsernames);
 
   return codeOwnerApprovals.length;
 }
