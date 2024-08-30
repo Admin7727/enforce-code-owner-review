@@ -13,53 +13,62 @@ To use this action in your workflow, follow these steps:
 
 ### 1. Create a Workflow
 
-If you don't already have a workflow file, create one in your repository under `.github/workflows/`, for example, `.github/workflows/code-owner-review.yml`.
+If you don't already have a workflow file, create one in your repository under `.github/workflows/`, for example, `.github/workflows/enforce-code-owner-review.yml`.
 
 ### 2. Configure the Workflow
 
 Add the following content to your workflow file, adjusting the parameters as necessary:
 
 ```yaml
-name: Enforce Code Owner Review
+name: Approval Validation #set name as you need
 
-on: [pull_request]
+on:
+  pull_request_review:
+    types: [submitted] #set option as you need
+    branches: #set branches from here
+      - main
 
 jobs:
-  code-owner-review:
+  approval-validation: 
+    if: github.event.review.state == 'approved' && github.event.pull_request.base.ref == 'main' #set validation again here (types and branches)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Enforce Code Owner Review
-      uses: Admin7727/enforce-code-owner-review@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Checkout other repo
+        uses: actions/checkout@master
+        with:
+          repository: Admin7727/enforce-code-owner-review
+          ref: main #set main branch as default
+          path: approval-validation
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: |
+          cd approval-validation
+          npm install
+
+      - name: Running github action
+        uses: ./approval-validation/.github/actions
+        env:
+          YOUR_REPO_TOKEN: ${{ secrets.YOUR_REPO_TOKEN }} #set your token here
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }} #this one is generated
+          codeowners-path: '.github/CODEOWNERS' #set codeowners located
+          required_approvals: 2 #set mininum approval
 ```
 
 ## Inputs
 
 The action supports the following inputs:
 
-- `repo-token`: **Required**. The GitHub token used to post comments and review statuses. Use `${{ secrets.GITHUB_TOKEN }}` to access the token provided by GitHub Actions.
+- `github-token`: **Required**. The GitHub token used to post comments and review statuses. Use `${{ secrets.GITHUB_TOKEN }}` to access the token provided by GitHub Actions.
 
-## Example Usage
-
-Here's a complete example of how to use this action in a workflow:
-
-```yaml
-name: Code Owner Review Enforcement
-
-on: [pull_request]
-
-jobs:
-  enforce-review:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Enforce Review
-      uses: Admin7727/enforce-code-owner-review@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-```
 
 ## Contributing
 
