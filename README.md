@@ -10,10 +10,10 @@ There are several key features :
 - **Approval Requirement**: Your branch must receive a minimum of 2 approvals from CODEOWNERS.
 
 And here is list of setup guide :
-1. Workflows Creation
-2. Configure the Workflow
-3. Configure the CODEOWNERS file
-4. Branch Protection Rules (on GitHub, open your repository)
+1. [Workflows Creation](https://github.com/Admin7727/enforce-code-owner-review/blob/main/README.md#1-workflows-creation)
+2. [Configure the Workflow](https://github.com/Admin7727/enforce-code-owner-review/blob/main/README.md#2-configure-the-workflow)
+3. [Configure the CODEOWNERS file](https://github.com/Admin7727/enforce-code-owner-review/blob/main/README.md#3-configure-the-codeowners-file)
+4. [Branch Protection Rules](https://github.com/Admin7727/enforce-code-owner-review/blob/main/README.md#4-configure-the-codeowners-file)
 
 ==
 
@@ -69,7 +69,7 @@ jobs:
 
 ==
 
-### 2. Configure the CODEOWNERS file
+### 3. Configure the CODEOWNERS file
 Ensure your CODEOWNERS file follows one of the formats below, adjusting for your specific needs:
 ```md
 # Global ownership rules
@@ -85,7 +85,7 @@ These examples are intended solely for **Global Ownership Rules**. If you alread
 
 ==
 
-### 3. Branch Protection Rules (on GitHub, open your repository)
+### 4. Branch Protection Rules (on GitHub, open your repository)
 Configure branch protection in your GitHub repository settings:
 - **Branch Name Pattern**:
   - Specify the branch to protect, typically `main`.
