@@ -8,7 +8,7 @@ inputs:
   required_approvals:
     description: 'Number of required approvals from code owners.'
     required: true
-    default: '1' # Assuming 1 approval is the default requirement
+    default: '2'
 runs:
   using: 'node20'
   main: '../../index.js'
