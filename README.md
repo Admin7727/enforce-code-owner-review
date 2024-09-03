@@ -1,23 +1,29 @@
 # Enforce Code Owner Review GitHub Action
-This GitHub Action enforces code owner reviews on pull requests after getting approval from user, ensuring that all changes are reviewed by the designated code owners before merging.
 
-## Features
-- **Automatic Enforcement** : Automatically checks if code owners have reviewed the pull requests.
-- **Customizable** : Easy to integrate and configure within your GitHub workflows.
-- **IMPORTANT** : Your repo must have CODEOWNERS file, reference at [github codeowners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
-- **IMPORTANT AGAIN** : Your branch requires a minimum of 2 approvals from CODEOWNERS (team/members).
+This GitHub Action ensures that pull requests are reviewed by designated code owners before merging, enhancing the security and integrity of your codebase.
 
-## Getting Started
-To use this action in your workflow, follow these steps:
+There are several key features :
 
-### A. Create a Workflow
+- **Automated Checks**: Verifies that code owners have reviewed pull requests.
+- **Flexibility**: Easily integrates with your GitHub workflows, allowing for customization.
+- **Prerequisites**: Requires a CODEOWNERS file in the repository. For more information, visit [GitHub's documentation](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
+- **Approval Requirement**: Your branch must receive a minimum of 2 approvals from CODEOWNERS.
 
-If you don't already have a workflow file, create one in your repository under `.github/workflows/`, for example, `.github/workflows/enforce-code-owner-review.yml`.
+And here is list of setup guide :
+1. Workflows Creation
+2. Configure the Workflow
+3. Configure the CODEOWNERS file
+4. Branch Protection Rules (on GitHub, open your repository)
 
-### B. Configure the Workflow
+==
 
+### 1. Workflows Creation
+Create a workflow file in your root directory `.github/workflows/`, e.g., `.github/workflows/enforce-code-owner-review.yml`, if it doesn't already exist.
+
+==
+
+### 2. Configure the Workflow
 Add the following content to your workflow file, adjusting the parameters as necessary:
-
 ```yaml
 name: Approval Validation #set name as you need
 
@@ -61,35 +67,40 @@ jobs:
           required_approvals: 2 #set at least 2 or more for approvals 
 ```
 
-### C. Configure the Branch Protection Rule (on github, open your repo)
+==
 
-1. Branch Name Pattern
-   - Set the branch name pattern to main (or the name of the branch you want to protect).
+### 2. Configure the CODEOWNERS file
+Ensure your CODEOWNERS file follows one of the formats below, adjusting for your specific needs:
+```md
+# Global ownership rules
+* @organization_name/code_owner_team
+```
+or
 
-3. Set Multiple approval whenever pull request into this branch
-   - Tick the box for **Require a pull request before merging**
-   - Tick the box for **Require approvals**
-   - Set **Required number of approvals before merging** with minimum 2.
+```md
+# Global ownership rules
+* @first_user @second_user
+```
+These examples are intended solely for **Global Ownership Rules**. If you already have another format, please reconsider or modify them further to ensure they align with your format.
 
-3. Tick the box for **Require review from Code Owners**
-   - This ensures that at least one approval must come from a code owner. (default by github)
-   - So that we need this **enfoce-code-owner-review** for multiple codeowner must given approvals before merging.
+==
 
-4. Set additional status check before merging:
-   - Check the box for **Require status checks to pass before merging**.
-   - This ensures that all required status checks must pass before a pull request can be merged.
+### 3. Branch Protection Rules (on GitHub, open your repository)
+Configure branch protection in your GitHub repository settings:
+- **Branch Name Pattern**:
+  - Specify the branch to protect, typically `main`.
+- **Pull Request Requirements**:
+  - Enable **Require a pull request before merging**.
+  - Enable **Require approvals**, setting the minimum number of approvals to 2.
+  - Enable **Require review from Code Owners**
+- **Status Checks**:
+  - Enable **Require status checks to pass before merging**.
+  - Specify necessary status checks, such as `approval-validation`.
+- **Additional Options**:
+  - Consider requiring branches to be up to date before merging.
+  - Optionally, disable the ability to bypass these settings, even for administrators.
 
-5. Set value of Status Checks:
-   - After enabling the requirement for status checks, you will see a list of available checks or you can input specific checks that must pass
-   - i.e, like your "**approval-validation**" (from yaml file) before allowing a merge.
-   - If you want to require another checks to pass, ensure you select all relevant checks.
-
-6. Optional: Require branches to be up to date before merging:
-   - Enabling this will require the branch to be up-to-date with the base branch before merging, ensuring that the PR has the latest changes from the base branch.
-
-8. Optional: Disable by-pass rule:
-   - Tick the box for **Do not allow bypassing the above settings**
-   - If you want to ensure that even administrators cannot bypass these rules.
+==
 
 ## Contributing
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -101,6 +112,8 @@ To contribute:
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+==
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
