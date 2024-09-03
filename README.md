@@ -57,9 +57,8 @@ jobs:
         env:
           YOUR_REPO_TOKEN: ${{ secrets.YOUR_REPO_TOKEN }} #set your token here
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }} #this one is generated
-          codeowners-path: '.github/CODEOWNERS' #set codeowners located
-          required_approvals: 2 #set mininum approval
+          codeowners_path: '.github/CODEOWNERS' #set codeowners located
+          required_approvals: 2 #set at least 2 or more for approvals 
 ```
 
 ### C. Configure the Branch Protection Rule (on github, open your repo)
