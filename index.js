@@ -84,8 +84,8 @@ async function main() {
   try {
     await loadDependencies();
     const this_octokit = new Octokit({ auth: process.env.AOSB2C_TOKEN });
-    const this_codeOwnerPath = core.getInput('codeowners-path');
-    const this_requiredApprovals = core.getInput('required-approvals');
+    const this_codeOwnerPath = core.getInput('codeowners_path');
+    const this_requiredApprovals = core.getInput('required_approvals');
 
     if (!this_codeOwnerPath) {
       throw new Error("CODEOWNERS file path not provided.");

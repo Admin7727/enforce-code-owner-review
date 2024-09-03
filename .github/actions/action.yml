@@ -1,7 +1,7 @@
 name: 'Enforce Code Owner Review'
 description: 'Ensure that pull requests have required approvals from code owners.'
 inputs:
-  codeowners-path:
+  codeowners_path:
     description: 'Custom path to the CODEOWNERS file.'
     required: true
     default: '.github/CODEOWNERS'
