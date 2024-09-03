@@ -8,7 +8,13 @@
     "prepare": "npm run build",
     "build": "ncc build index.js -o dist"
   },
-  "keywords": ["github", "action", "code-review", "enforce", "owners"],
+  "keywords": [
+    "github",
+    "action",
+    "code-review",
+    "enforce",
+    "owners"
+  ],
   "author": "Your Name",
   "license": "MIT",
   "description": "A GitHub Action to enforce code owner reviews on pull requests.",
@@ -18,8 +24,8 @@
     "@octokit/rest": "21.0.2"
   },
   "devDependencies": {
+    "@vercel/ncc": "^0.33.0",
     "eslint": "^7.32.0",
-    "jest": "^27.4.5",
-    "@vercel/ncc": "^0.33.0"
+    "jest": "^27.4.5"
   }
 }

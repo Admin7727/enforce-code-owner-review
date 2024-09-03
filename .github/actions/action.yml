@@ -1,16 +1,13 @@
 name: 'Enforce Code Owner Review'
 description: 'Ensure that pull requests have required approvals from code owners.'
 inputs:
-  github-token:
-    description: 'GitHub token for accessing the repository.'
-    required: true
   codeowners-path:
     description: 'Custom path to the CODEOWNERS file.'
-    required: false
+    required: true
     default: '.github/CODEOWNERS'
   required_approvals:
     description: 'Number of required approvals from code owners.'
-    required: false
+    required: true
     default: '1' # Assuming 1 approval is the default requirement
 runs:
   using: 'node20'
