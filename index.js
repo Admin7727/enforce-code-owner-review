@@ -74,7 +74,6 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
   console.log("=====================================");
   console.log("Code owners list : ", codeOwners);
   console.log("Approved given by : ", approvedUsers);
-  console.log("Matched approval : ", matchedApprovals);
   console.log("=====================================");
 
   return matchedApprovals; // Return the count of matched approvals
@@ -106,9 +105,9 @@ async function main() {
     const approvals = await listCodeOwnerApprovals(this_octokit, owner, repo, pull_number, codeOwnersContent);
 
     if (approvals < this_requiredApprovals) {
-    core.setFailed("Not enough approvals from code owner team.");
+    core.setFailed("Need more approvals from code owner.");
     } else {
-    console.log("Sufficient approvals from code owner team.");
+    console.log("Approved by code owners.");
     }
     
   } catch (err) {
