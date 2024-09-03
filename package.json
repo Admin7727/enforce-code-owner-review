@@ -15,7 +15,7 @@
     "enforce",
     "owners"
   ],
-  "author": "Your Name",
+  "author": "Admin7727",
   "license": "MIT",
   "description": "A GitHub Action to enforce code owner reviews on pull requests.",
   "dependencies": {

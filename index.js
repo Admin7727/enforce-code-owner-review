@@ -90,13 +90,10 @@ async function main() {
     if (!this_codeOwnerPath) {
       throw new Error("CODEOWNERS file path not provided.");
     }
-    console.log("CODEOWNERS file path : ", this_codeOwnerPath);
-
 
     if (!this_requiredApprovals) {
       throw new Error("Required approvals count not provided.");
     }
-    console.log("Required approvals count : ", this_requiredApprovals);
 
     const { owner, repo } = github.context.repo;
     const pull_number = github.context.issue.number;
