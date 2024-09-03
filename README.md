@@ -5,16 +5,16 @@ This GitHub Action enforces code owner reviews on pull requests after getting ap
 - **Automatic Enforcement** : Automatically checks if code owners have reviewed the pull requests.
 - **Customizable** : Easy to integrate and configure within your GitHub workflows.
 - **IMPORTANT** : Your repo must have CODEOWNERS file, reference at [github codeowners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
-- **IMPORTANT AGAIN** : Your branch must using at least 2 approvals, and both from CODEOWNERS (team / member)
+- **IMPORTANT AGAIN** : Your branch requires a minimum of 2 approvals from CODEOWNERS (team/members).
 
 ## Getting Started
 To use this action in your workflow, follow these steps:
 
-### 1. Create a Workflow
+### A. Create a Workflow
 
 If you don't already have a workflow file, create one in your repository under `.github/workflows/`, for example, `.github/workflows/enforce-code-owner-review.yml`.
 
-### 2. Configure the Workflow
+### B. Configure the Workflow
 
 Add the following content to your workflow file, adjusting the parameters as necessary:
 
