@@ -13,7 +13,7 @@ And here is list of setup guide :
 1. [Workflows Creation](https://github.com/Admin7727/enforce-code-owner-review?tab=readme-ov-file#1-workflows-creation)
 2. [Configure the Workflow](https://github.com/Admin7727/enforce-code-owner-review?tab=readme-ov-file#2-configure-the-workflow)
 3. [Configure the CODEOWNERS file](https://github.com/Admin7727/enforce-code-owner-review?tab=readme-ov-file#3-configure-the-codeowners-file)
-4. [Branch Protection Rules](https://github.com/Admin7727/enforce-code-owner-review?tab=readme-ov-file#4-configure-the-codeowners-file)
+4. [Branch Protection Rules](https://github.com/Admin7727/enforce-code-owner-review?tab=readme-ov-file#4-branch-protection-rules-on-github-open-your-repository)
 
 ==
 
