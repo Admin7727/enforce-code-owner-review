@@ -82,9 +82,9 @@ async function listCodeOwnerApprovals(octokit, owner, repo, pull_number, codeOwn
 async function main() {
   try {
     await loadDependencies();
-    const this_octokit = new Octokit({ auth: process.env.AOSB2C_TOKEN });
-    const this_codeOwnerPath = core.getInput('codeowners_path');
-    const this_requiredApprovals = core.getInput('required_approvals');
+    const this_octokit = new Octokit({ auth: process.env.AOSB2C_TOKEN }); //set YOUR_REPO_TOKEN here
+    const this_codeOwnerPath = core.getInput('codeowners_path'); //params from workflow file
+    const this_requiredApprovals = core.getInput('required_approvals'); //params from workflow file
 
     if (!this_codeOwnerPath) {
       throw new Error("CODEOWNERS file path not provided.");
